@@ -1,0 +1,75 @@
+/* The following lets us use a % height on the tiles. */
+html, body {
+  background: -linear-gradient(top, #020202, #2C2E3C);
+  background: -moz-linear-gradient(top, #020202, #2C2E3C);
+  background: -ms-linear-gradient(top, #020202, #2C2E3C);
+  background: -o-linear-gradient(top, #020202, #2C2E3C);
+  background: -webkit-linear-gradient(top, #020202, #2C2E3C);
+  height:100%;
+}
+
+.container {
+  height:100%;
+  perspective:1000px;
+  /*
+    stop the tiles from "moving behind" the
+    clickable plane  (for lack of a better term)
+    see here: http://bit.ly/rd3dbj
+    */
+    transform:translatez(0);
+    width:100%;
+
+    /* make the tiles half opaque until hovered */
+    &:hover .tile {
+      -webkit-filter:grayscale(100%);
+      opacity:.3;
+    }
+    .tile:hover {
+      -webkit-filter: grayscale(0%);
+      opacity:1;
+    }
+}
+
+.tile {
+  backface-visibility:hidden;
+  background:rgba(0,0,0,0.5);
+  height:30%;
+  margin:1.6%;
+  position:absolute;
+  transition:all .4s ease-in-out;
+  transform-style:preserve-3d;
+  width:30%;
+
+  &:nth-of-type(3n+1) { /* col 1 */
+    left:1.6%;
+    transform:rotateY(20deg) translateZ(-30px);
+  }
+  &:nth-of-type(3n+2) { /* col 2 */
+    left:33%;
+    transform:translateZ(-90px);
+  }
+  &:nth-of-type(3n+3) { /* col 3 */
+    left:64.6%;
+    transform:rotateY(-20deg) translateZ(-30px);
+  }
+
+  &:nth-of-type(1n+1) { /* row 1 - not strictly necessary, but helps to keep things neat */
+    top:1.6%;
+  }
+  &:nth-of-type(1n+4) { /* row 2 */
+    top:33%;
+  }
+  &:nth-of-type(1n+7) { /* row 3 */
+    top:64.6%;
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.3)));
+  }
+
+  &.active {
+    height:96.8%;
+    left:0;
+    top:0;
+    transform:rotateY(0) translateZ(0);
+    width:96.8%;
+    z-index:3;
+  }
+}
